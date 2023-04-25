@@ -25,17 +25,31 @@
 
 Клонировать репозиторий и перейти в него в командной строке:
 
-```
 cd infra
-```
 
 Развернуть докер контэйнеры:
-```
+
 sudo docker-compose up
-```
 
 Выполнить миграции и собрать статику
-```
+
 docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py createsuperuser
 docker-compose exec web python manage.py collectstatic --no-input
+
+Создаем дамп базы данных (нет в текущем репозитории):
+
+docker-compose exec web python manage.py dumpdata > dumpPostrgeSQL.json
+Останавливаем контейнеры:
+
+docker-compose down -v
+
+Шаблон наполнения .env (не включен в текущий репозиторий) расположенный по пути infra/.env
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DB_HOST=db
+DB_PORT=5432
+
+Авторы проекта: Андреева Ира, Александр Полукаров, Павел Смирнов.
